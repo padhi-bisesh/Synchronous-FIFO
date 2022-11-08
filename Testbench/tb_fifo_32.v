@@ -4,7 +4,7 @@
  //`include     "counter_define.h"  
  module     tb_fifo_32;  
  // 4. Parameter definitions  
- parameter     ENDTIME      = 40000;  
+ parameter     ENDTIME      = 4000;  
  // 5. DUT Input regs  
  reg     clk;  
  reg     rst_n;  
@@ -20,16 +20,18 @@
  wire     fifo_underflow;  
  integer i;  
  // 7. DUT Instantiation  
- fifo_mem tb (/*AUTOARG*/  
+ TOP DUT (/*AUTOARG*/  
    // Outputs  
-   data_out, fifo_full, fifo_empty, fifo_threshold, fifo_overflow,   
-   fifo_underflow,   
+   .READ_DATA(data_out), .FULL(fifo_full), .EMPTY(fifo_empty), .OVERFLOW(fifo_overflow),   
+   .UNDERFLOW(fifo_underflow),   
    // Inputs  
-   clk, rst_n, wr, rd, data_in  
+   .clk(clk), .rst(rst_n), .wr(wr), .rd(rd), .WRITE_DATA(data_in)  
    );  
  // 8. Initial Conditions  
- initial  
-      begin  
+ initial 
+      begin
+           $dumpfile("tb_fifo_32.vcd");
+     $dumpvars(0,tb_fifo_32);  
            clk     = 1'b0;  
            rst_n     = 1'b0;  
            wr     = 1'b0;  
